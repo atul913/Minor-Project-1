@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="shortcut icon" href="./images/logo.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            margin: 0;
+            background-image: radial-gradient(circle at 70% 0%, rgba(216, 225, 233, 0.75) 0%, rgba(215, 215, 230, 0.15) 45%, rgba(221, 221, 237, 0) 80%);
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            height: 110vh;
+        }
+
+        main {
+            max-width: 80%;
+            margin: 9rem auto;
+            padding: 0 1rem;
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media(min-width: 768px) {
+            main {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 3rem;
+            }
+        }
+
+        @media(min-width: 1200px) {
+            main {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 3rem;
+            }
+        }
+
+        main p {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: var(--color-dark);
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+        }
+
+        p.intro {
+            grid-column: 1 / -1;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .team-member:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .team-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #7380ec;
+            margin-bottom: 0.3rem;
+        }
+
+        .team-role {
+            font-style: italic;
+            color: #7380ec;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .team-bio {
+            font-size: 1rem;
+            color: #444;
+            flex-grow: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-btn {
+            background-color: #7380ec;
+            color: white;
+            text-decoration: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(10, 147, 150, 0.3);
+            transition: background-color 0.3s ease;
+            align-self: center;
+        }
+
+        .contact-btn:hover {
+            background-color: var(--color-success);
+        }
+
+        /* Footer styling */
+        footer {
+            background: #030914;
+            padding: 2rem 2rem 1rem;
+            margin-top: 4rem;
+            font-size: 0.9rem;
+        }
+
+        .footer-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .footer-section {
+            flex: 1 1 220px;
+            min-width: 220px;
+            color: #f6f6f6;
+        }
+
+        .footer-section h3 {
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section p {
+            color: #ddd;
+        }
+
+        .footer-links,
+        .social-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.6rem;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #94d2bd;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            font-size: 1.3rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-links i {
+            color: #ddd;
+        }
+
+
+
+        .social-links a:hover {
+            color: #0a9396;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: #666;
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 600px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .footer-section {
+                min-width: 100%;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+    <!-- FontAwesome CDN for social icons -->
+</head>
+
+<body>
+    <header>
+        <div class="logo" title="University Management System">
+            <h2>Skill<span class="danger" style="color: #eb6772;">F</span>orge</h2>
+        </div>
+        <div class="navbar">
+            <a href="{{url_for('dashboard') }}">
+                <span class="material-icons-sharp">home</span>
+                <h3>Home</h3>
+            </a>
+            <a href="#" class="active">
+                <span class="material-icons-sharp icon">menu_book</span>
+                <h3>About</h3>
+            </a>
+            <a href="{{url_for('contact') }}">
+                <span class="material-icons-sharp icon">call</span>
+                <h3>Contact Us</h3>
+            </a>
+            <a href="{{url_for('login_page') }}">
+                <span class="material-icons" onclick="">person_add</span>
+                <h3>Login/Register</h3>
+            </a>
+            <a href="{{url_for('admin_login_page') }}">
+                <span class="material-icons">person</span>
+                <h3>Admin Login</h3>
+            </a>
+        </div>
+
+    </header>
+
+    <main>
+        <p>Our Team</p>
+        <p class="intro">
+            We are a passionate team of four dedicated professionals committed to delivering
+            the best solutions with creativity, collaboration, and excellence.
+        </p>
+        <section class="team-member">
+            <h2 class="team-name">Azhar Khan</h2>
+            <p class="team-role">Team Lead & Backend</p>
+            <p class="team-bio">Azhar drives the team's vision and ensures optimal user experiences through
+                thoughtful
+                design strategies.</p>
+            <a href="mailto:alice@example.com" class="contact-btn">Contact</a>
+        </section>
+        <section class="team-member">
+            <h2 class="team-name">Aviraj Singh Tomar</h2>
+            <p class="team-role">Frontend Developer</p>
+            <p class="team-bio">Aviraj codes the backbone of our projects, making sure everything runs smoothly and
+                efficiently.</p>
+            <a href="mailto:bob@example.com" class="contact-btn">Contact</a>
+        </section>
+        <section class="team-member">
+            <h2 class="team-name">Bhavya Gupta</h2>
+            <p class="team-role">Documentation</p>
+            <p class="team-bio">Bhavya connects our product with the world, driving growth through expert marketing
+                campaigns.</p>
+            <a href="mailto:clara@example.com" class="contact-btn">Contact</a>
+        </section>
+        <section class="team-member">
+            <h2 class="team-name">Atul Agrawal</h2>
+            <p class="team-role">UX/UI Designer</p>
+            <p class="team-bio">Atul Keeps projects on track, coordinating across teams to ensure timely delivery
+                and
+                quality.</p>
+            <a href="mailto:david@example.com" class="contact-btn">Contact</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: atulagrawal230707@acropolis.in</p>
+                <p>Phone: +91 9131291691</p>
+                <p>Address: Acropolis, Indore</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="{{url_for('dashboard') }}">Home</a></li>
+                    <li><a href="#">Our Services</a></li>
+                    <li><a href="{{url_for('about') }}">About</a></li>
+                    <li><a href="{{url_for('contact') }}">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <ul class="social-links">
+                    <li><a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                    <li><a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                    <li><a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 SkillForge. All rights reserved.
+        </div>
+    </footer>
+</body>
+
+</html>

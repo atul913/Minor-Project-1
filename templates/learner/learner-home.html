@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="shortcut icon" href="./images/logo.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        body {
+            transition: filter 0.3s;
+        }
+
+        .edit-btn {
+            width: 90%;
+            display: inline-flex;
+            /* align icon + text horizontally */
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            /* vertical alignment */
+            padding: 8px 12px;
+            margin-top: 10px;
+            /* some padding */
+            border-radius: 24px;
+            border: 1px solid #ccc;
+            background-color: rgba(115, 128, 236, 0.08);
+            /* light background */
+            color: #333;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            /* smooth hover effect */
+        }
+
+        .edit-btn:hover {
+            background-color: var(--color-background);
+            /* blue on hover */
+            transition: all 0.3s ease-in-out;
+        }
+
+        .edit-btn .material-icons-sharp {
+            font-size: 20px;
+            margin-right: 6px;
+            /* space between icon and text */
+        }
+
+
+        /* Page content container */
+        #pageContent {
+            transition: filter 0.3s;
+        }
+
+        /* The modal background */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            /* On top of everything */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Modal content box */
+        .modal-content {
+            padding: 20px;
+            border-radius: 8px;
+            width: 700px;
+            position: relative;
+            /* fixed to viewport */
+            top: 50%;
+            /* vertical center */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* horizontal center */
+            /* center perfectly */
+            /* ensure it stays above blurred background */
+            z-index: 1001;
+        }
+
+        /* Close button */
+
+        form {
+            background: var(--color-white);
+            border-radius: var(--card-border-radius);
+            padding: 2rem 2.5rem;
+            box-shadow: var(--box-shadow);
+            width: 700px;
+            height: auto;
+            margin: 0rem auto 3rem auto;
+        }
+
+        fieldset {
+            border: 1px solid var(--color-light);
+            border-radius: var(--border-radius-1);
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.8rem;
+        }
+
+        legend {
+            font-weight: 600;
+            color: var(--color-primary);
+            padding: 0 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        label {
+            display: block;
+            margin: 0.7rem 0 0.25rem;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="email"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 0.6rem 0.85rem;
+            border-radius: var(--border-radius-1);
+            border: 1px solid var(--color-light);
+            font-size: 1rem;
+            font-family: inherit;
+            background: var(--color-background);
+        }
+
+        button[type="submit"] {
+            background: var(--color-primary);
+            color: white;
+            padding: 0.75rem 2.2rem;
+            border: none;
+            border-radius: var(--border-radius-2);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s ease;
+            margin-top: 1.3rem;
+            display: block;
+            width: 100%;
+            max-width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        button[type="submit"]:hover {
+            background: var(--color-success);
+        }
+
+        @media (max-width: 768px) {
+            form {
+                margin: 4rem 1rem 2rem 1rem;
+                padding: 1.5rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo" title="University Management System">
+            <h2>Skill<span class="danger">F</span>orge</h2>
+        </div>
+        <div class="navbar">
+            <a href="#" class="active">
+                <span class="material-icons-sharp">home</span>
+                <h3>Home</h3>
+            </a>
+            <a href="{{url_for('courses')}}">
+                <span class="material-icons-sharp">menu_book</span>
+                <h3>Courses</h3>
+            </a>
+            <a href="{{url_for('study')}}">
+                <span class="material-icons-sharp">book</span>
+                <h3>Study</h3>
+            </a>
+            <a href="{{url_for('learner_password')}}">
+                <span class="material-icons-sharp">password</span>
+                <h3>Change Password</h3>
+            </a>
+            <a href="{{url_for('dashboard')}}" onclick="alert('You have been logged out!')">
+                <span class="material-icons-sharp">logout</span>
+                <h3>Logout</h3>
+            </a>
+        </div>
+
+    </header>
+    <div id="pageContent">
+        <div class="container">
+            <aside>
+                <div class="profile">
+                    <div class="top">
+                        <div class="profile-photo">
+                            <img src="{{url_for('static', filename = './images/profile-1.jpg')}}" alt="">
+                        </div>
+                        <div class="info">
+                            <p>Hey, <b>{{name.split()[0]}}</b> </p>
+                            <small class="text-muted">12102030</small>
+                        </div>
+                    </div>
+                    <div class="about">
+                        <h5>Course</h5>
+                        <p>{{course}}</p>
+                        <h5>Enrollment</h5>
+                        <p>{{enrollment}}</p>
+                        <h5>Contact</h5>
+                        <p>+91 {{cn}}</p>
+                        <h5>Email</h5>
+                        <p>{{email}}</p>
+                        <h5>College</h5>
+                        <p>{{college}}</p>
+                    </div>
+                    <button class="edit-btn" id="openModalBtn">
+                        <span class="material-icons-sharp">edit</span>
+                        Edit Profile
+                    </button>
+
+                </div>
+            </aside>
+
+            <main>
+                <h1>Attendance</h1>
+                <div class="subjects">
+                    <div class="eg">
+                        <span class="material-icons-sharp">architecture</span>
+                        <h3>Engineering <br>Graphics</h3>
+                        <h2>12/14</h2>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>86%</p>
+                            </div>
+                        </div>
+                        <small class="text-muted">Last 24 Hours</small>
+                    </div>
+                    <div class="mth">
+                        <span class="material-icons-sharp">functions</span>
+                        <h3>Engineering <br>Maths</h3>
+                        <h2>27/29</h2>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>93%</p>
+                            </div>
+                        </div>
+                        <small class="text-muted">Last 24 Hours</small>
+                    </div>
+                    <div class="cs">
+                        <span class="material-icons-sharp">computer</span>
+                        <h3>Computer <br>Architecture</h3>
+                        <h2>27/30</h2>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>81%</p>
+                            </div>
+                        </div>
+                        <small class="text-muted">Last 24 Hours</small>
+                    </div>
+                    <div class="cg">
+                        <span class="material-icons-sharp">dns</span>
+                        <h3>Database <br>Management</h3>
+                        <h2>24/25</h2>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>96%</p>
+                            </div>
+                        </div>
+                        <small class="text-muted">Last 24 Hours</small>
+                    </div>
+                    <div class="net">
+                        <span class="material-icons-sharp">router</span>
+                        <h3>Network <br>Security</h3>
+                        <h2>25/27</h2>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>92%</p>
+                            </div>
+                        </div>
+                        <small class="text-muted">Last 24 Hours</small>
+                    </div>
+                </div>
+
+                <div class="timetable" id="timetable">
+                    <div>
+                        <span id="prevDay">&lt;</span>
+                        <h2>Today's Timetable</h2>
+                        <span id="nextDay">&gt;</span>
+                    </div>
+                    <span class="closeBtn" onclick="timeTableAll()">X</span>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Room No.</th>
+                                <th>Subject</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </main>
+
+            <div class="right">
+                <div class="announcements">
+                    <h2>Announcements</h2>
+                    <div class="updates">
+                        <div class="message">
+                            <p> <b>Academic</b> Summer training internship with Live Projects.</p>
+                            <small class="text-muted">2 Minutes Ago</small>
+                        </div>
+                        <div class="message">
+                            <p> <b>Co-curricular</b> Global internship oportunity by Student organization.</p>
+                            <small class="text-muted">10 Minutes Ago</small>
+                        </div>
+                        <div class="message">
+                            <p> <b>Examination</b> Instructions for Mid Term Examination.</p>
+                            <small class="text-muted">Yesterday</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="leaves">
+                    <h2>Teachers on leave</h2>
+                    <div class="teacher">
+                        <div class="profile-photo"><img src="./images/profile-2.jpeg" alt=""></div>
+                        <div class="info">
+                            <h3>The Professor</h3>
+                            <small class="text-muted">Full Day</small>
+                        </div>
+                    </div>
+                    <div class="teacher">
+                        <div class="profile-photo"><img src="./images/profile-3.jpg" alt=""></div>
+                        <div class="info">
+                            <h3>Lisa Manobal</h3>
+                            <small class="text-muted">Half Day</small>
+                        </div>
+                    </div>
+                    <div class="teacher">
+                        <div class="profile-photo"><img src="./images/profile-4.jpg" alt=""></div>
+                        <div class="info">
+                            <h3>Himanshu Jindal</h3>
+                            <small class="text-muted">Full Day</small>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal moved outside the sidebar/container -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form action="http://localhost:5000/learner/edit-profile" method="post" class="box">
+                <fieldset>
+                    <legend>Student Profile</legend>
+
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" value="{{name}}" required>
+
+                    <label for="enrollmentNo">Enrollment Number</label>
+                    <input type="text" name="enrollment" id="enrollmentNo" value="{{enrollment}}" required>
+
+                    <label for="course">Course</label>
+                    <input type="text" name="course" id="course" value="{{course}}" required>
+
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" name="dob" id="dob" value="" required>
+
+                    <label for="contact">Contact Number</label>
+                    <input type="tel" name="cn" id="contact" value="{{cn}}" required>
+
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" value="{{email}}" required>
+
+                    <label for="college">College</label>
+                    <input type="text" name="college" id="college" value="{{college}}" required>
+
+                    <button type="submit">Update Profile</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById("myModal");
+        const btn = document.getElementById("openModalBtn");
+        const span = document.getElementsByClassName("close")[0];
+        const pageContent = document.getElementById("pageContent");
+
+        btn.onclick = function () {
+            modal.style.display = "block";
+            pageContent.style.filter = "blur(5px)";
+        }
+
+        span.onclick = function () {
+            modal.style.display = "none";
+            pageContent.style.filter = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                pageContent.style.filter = "none";
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

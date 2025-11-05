@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.png') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,500&display=swap');
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
+        .contact-content {
+            width: 100%;
+            height: 100vh;
+            padding-top: 3rem;
+            background-image: radial-gradient(circle at 70% 0%, rgba(216, 225, 233, 0.75) 0%, rgba(215, 215, 230, 0.15) 45%, rgba(221, 221, 237, 0) 80%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .contact-title {
+            text-align: center;
+            width: 100%;
+            height: 20vh;
+            align-content: center;
+            padding-top: 3rem;
+        }
+
+        .contact-title p {
+            width: 100%;
+            text-align: center;
+            color: var(--color-dark);
+            font-size: 3rem;
+        }
+
+        .contact-down {
+            width: 94%;
+            height: 70vh;
+            border-radius: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: center;
+        }
+
+        .thanks p {
+            font-family: 'Poppins', sans-serif;
+            color: #000;
+            font-size: 1.2rem;
+            line-height: 1.4;
+            margin-top: 4rem;
+        }
+
+        .contact-details {
+            border-radius: var(--border-radius-2);
+            background-color: var(--color-white);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.063);
+            width: 20%;
+            height: 55%;
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            padding: 12px 14px;
+            margin-top: 30px;
+        }
+
+        .contact-details:hover {
+            box-shadow: none;
+            transform: scale(1.01);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+
+        .name-de {
+            width: 90%;
+            margin-top: 15px;
+            height: 5vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .name-de img {
+            height: 40%;
+        }
+
+        .name-de p {
+            font-size: 1rem;
+        }
+
+        .name-de p span {
+            font-weight: bold;
+        }
+
+        .address-de {
+            height: 5vh;
+            width: 90%;
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .address-de img {
+            height: 40%;
+        }
+
+        .address-de p {
+            margin-left: 20px;
+            font-size: 1rem;
+        }
+
+        .address-de p span {
+            font-weight: bold;
+        }
+
+        .contact-de {
+            height: 5vh;
+            width: 90%;
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-de img {
+            height: 40%;
+        }
+
+        .contact-de p {
+            margin-left: 20px;
+            font-size: 1rem;
+        }
+
+        .contact-de p span {
+            font-weight: bold;
+        }
+
+        .name-de,
+        .address-de,
+        .contact-de {
+            width: 90%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            /* adds even spacing */
+            margin-top: 20px;
+        }
+
+        .name-de img,
+        .address-de img,
+        .contact-de img {
+            height: 24px;
+            width: 24px;
+            object-fit: contain;
+        }
+
+        .name-de p,
+        .address-de p,
+        .contact-de p {
+            font-size: 1rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .name-de p span,
+        .address-de p span,
+        .contact-de p span {
+            font-weight: bold;
+        }
+
+
+
+        .contact-footer {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 5vh;
+            margin-top: auto;
+            margin-bottom: 0px;
+        }
+
+        #credit {
+            text-align: center;
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 1.2rem;
+        }
+
+        .social-handles {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .icons {
+            height: 45px;
+            width: 45px;
+            border-radius: 50px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+            justify-content: center;
+            text-align: center;
+            transition: transform 0.1s ease;
+            cursor: pointer;
+        }
+
+        .icons i {
+            color: black;
+            font-size: 22px;
+        }
+
+        .icons:hover {
+            transform: scale(1.05);
+        }
+
+        .contact-footer a {
+            color: rgb(216, 30, 30);
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <div class="logo" title="University Management System">
+            <h2>Skill<span class="danger">F</span>orge</h2>
+        </div>
+        <div class="navbar">
+            <a href="{{url_for('dashboard') }}">
+                <span class="material-icons-sharp">home</span>
+                <h3>Home</h3>
+            </a>
+            <a href="{{url_for('about') }}">
+                <span class="material-icons-sharp icon">menu_book</span>
+                <h3>About</h3>
+            </a>
+            <a href="" class="active">
+                <span class="material-icons-sharp icon">call</span>
+                <h3>Contact Us</h3>
+            </a>
+            <a href="{{url_for('login_page') }}">
+                <span class="material-icons" onclick="">person_add</span>
+                <h3>Login/Register</h3>
+            </a>
+            <a href="{{url_for('admin_login_page') }}">
+                <span class="material-icons">person</span>
+                <h3>Admin Login</h3>
+            </a>
+        </div>
+
+    </header>
+
+    <div class="contact-content">
+        <div class="contact-title">
+            <p>Contact Us</p>
+        </div>
+        <div class="thanks">
+            <p>Thank you for visiting our Platform! Your time and support mean so much. Wishing you a joyful and
+                gratitude-filled
+                Thanksgiving! 🦃🍂
+            </p>
+
+        </div>
+        <div class="contact-down">
+            <div class="contact-details">
+                <div class="name-de">
+                    <img src="{{ url_for('static', filename='images/users.png') }}" alt="no pic">
+                    <p><span>Name</span><br>Azhar Khan</p>
+                </div>
+                <div class="address-de">
+                    <img src="{{ url_for('static', filename='images/location-pin.png') }}" alt="no pic">
+                    <p><span>Location</span><br>Indore, Madhya Pradesh</p>
+                </div>
+                <div class="contact-de">
+                    <img src="{{ url_for('static', filename='images/email.png') }}" alt="no pic">
+                    <p><span>Email</span><br>azharkhan230707@acropolis.in</p>
+                </div>
+                <div class="social-handles">
+                    <div class="icons"><a href="https://www.facebook.com/atul.agrawal91/" target="_blank"><i
+                                class="fab fa-facebook-f"></i></a></div>
+                    <div class="icons"><a href="https://www.linkedin.com/in/azhar-khan-a13398338/" target="_blank"><i
+                                class="fab fa-linkedin-in"></i></a></div>
+                    <div class="icons"><a href="https://github.com/azharkhan924" target="_blank">
+                            <i class="fab fa-github"></i></a></div>
+                </div>
+            </div>
+            <div class="contact-details">
+                <div class="name-de">
+                    <img src="{{ url_for('static', filename='images/users.png') }}" alt="no pic">
+                    <p><span>Name</span><br>Aviraj Singh Tomar</p>
+                </div>
+                <div class="address-de">
+                    <img src="{{ url_for('static', filename='images/location-pin.png') }}" alt="no pic">
+                    <p><span>Location</span><br>Indore, Madhya Pradesh</p>
+                </div>
+                <div class="contact-de">
+                    <img src="{{ url_for('static', filename='images/email.png') }}" alt="no pic">
+                    <p><span>Email</span><br>avirajsingh230707@acropolis.in</p>
+                </div>
+                <div class="social-handles">
+                    <div class="icons"><a href="" target="_blank"><i class="fab fa-facebook-f"></i></a></div>
+                    <div class="icons"><a href="" target="_blank"><i class="fab fa-linkedin-in"></i></a></div>
+                    <div class="icons"><a href="" target="_blank">
+                            <i class="fab fa-github"></i></a></div>
+                </div>
+            </div>
+            <div class="contact-details">
+                <div class="name-de">
+                    <img src="{{ url_for('static', filename='images/users.png') }}" alt="no pic">
+                    <p><span>Name</span><br>Bhavya Gupta</p>
+                </div>
+                <div class="address-de">
+                    <img src="{{ url_for('static', filename='images/location-pin.png') }}" alt="no pic">
+                    <p><span>Location</span><br>Indore, Madhya Pradesh</p>
+                </div>
+                <div class="contact-de">
+                    <img src="{{ url_for('static', filename='images/email.png') }}" alt="no pic">
+                    <p><span>Email</span><br>bhavyagupta@acropolis.in</p>
+                </div>
+                <div class="social-handles">
+                    <div class="icons"><a href="https://www.facebook.com/atul.agrawal91/" target="_blank"><i
+                                class="fab fa-facebook-f"></i></a></div>
+                    <div class="icons"><a href="https://www.linkedin.com/in/bhavya-g-21388527a/" target="_blank"><i
+                                class="fab fa-linkedin-in"></i></a></div>
+                    <div class="icons"><a href="https://github.com/bhavyaG43" target="_blank">
+                            <i class="fab fa-github"></i></a></div>
+                </div>
+            </div>
+            <div class="contact-details">
+                <div class="name-de">
+                    <img src="{{ url_for('static', filename='images/users.png') }}" alt="no pic">
+                    <p><span>Name</span><br>Atul Agrawal</p>
+                </div>
+                <div class="address-de">
+                    <img src="{{ url_for('static', filename='images/location-pin.png') }}" alt="no pic">
+                    <p><span>Location</span><br>Indore, Madhya Pradesh</p>
+                </div>
+                <div class="contact-de">
+                    <img src="{{ url_for('static', filename='images/email.png') }}" alt="no pic">
+                    <p><span>Email</span><br>atulagrawal230707@acropolis.in</p>
+                </div>
+                <div class="social-handles">
+                    <div class="icons"><a href="https://www.facebook.com/atul.agrawal91/" target="_blank"><i
+                                class="fab fa-facebook-f"></i></a></div>
+                    <div class="icons"><a
+                            href="https://www.linkedin.com/in/atul-agrawal-676705341?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app "
+                            target="_blank"><i class="fab fa-linkedin-in"></i></a></div>
+                    <div class="icons"><a href="https://github.com/Newbie-coder91/" target="_blank">
+                            <i class="fab fa-github"></i></a></div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer class="contact-footer">
+            <span id="credit">Created By <a href="{{url_for('dashboard')}}">Newbie-coder91</a> | <span>&#169</span> 2024
+                All
+                rights
+                reserved.</span>
+        </footer>
+
+</body>
+
+</html>

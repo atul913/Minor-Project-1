@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instructor | Course View</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/course-view.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="logo">
+            <h2>Skill<span style="color: #eb6772;">F</span>orge</h2>
+        </div>
+    </header>
+
+    <main class="container">
+        <p class="path"><a href="{{url_for('study')}}">Study </a>/<a href="#"> Course</a></p>
+        <h4 class="course-title">{{course.course_name}}</h4>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="classes">Classes</button>
+            <button class="tab-btn" data-tab="handouts">Handouts</button>
+            <button class="tab-btn" data-tab="overview">Overview</button>
+        </div>
+
+        <hr>
+
+        <div class="tab-content active" id="classes">
+            <div class="card-grid">
+                {% if uploads %}
+                {% for upload in uploads %}
+                {% if upload.file_type == 'video' %}
+                <div class="card">
+                    <div class="badge">{{course.course_name}}</div>
+                    <h6>{{upload.title}}</h6>
+                    <p>SKILL FORGE</p>
+                    <div class="meta">
+                        <span>🕒 {{ upload.uploaded_at.strftime('%I:%M %p') }}</span>
+                        <span>📅 {{ upload.uploaded_at.strftime('%b %d, %Y') }}</span>
+                    </div>
+                    <a href="javascript:void(0);" class="play-btn"
+                        onclick="openVideo('{{ url_for('static', filename=upload.file_path) }}')">
+                        <i class="fa-solid fa-play"></i>
+                    </a>
+                </div>
+                {% endif%}
+
+                {% endfor %}
+
+                {% else %}
+                <p class="empty-message">No lectures available yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Handouts Section -->
+        <div class="tab-content" id="handouts">
+            <div class="card-grid">
+                {% if uploads %}
+                {% for upload in uploads %}
+                {% if upload.file_type == 'pdf' %}
+                <div class="card">
+                    <div class="card-header">
+                        <div class="pdf-icon">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+                        <div class="badge">{{course.course_name}}</div>
+                    </div>
+                    <h6>Notes - {{upload.title}}</h6>
+                    <div class="meta">
+                        <span>🕒 {{ upload.uploaded_at.strftime('%I:%M %p') }}</span>
+                        <span>📅 {{ upload.uploaded_at.strftime('%b %d, %Y') }}</span>
+                    </div>
+                    <a href="{{ url_for('static', filename=upload.file_path) }}" target="_blank" class="view-btn">
+                        <i class="fa-solid fa-eye"></i> View
+                    </a>
+                </div>
+                {% endif%}
+
+                {% endfor %}
+
+                {% else %}
+                <p class="empty-message">No handouts available yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <div class="tab-content" id="overview">
+            <div class="overview-box">
+                <h3>Course Overview</h3>
+                <p>{{course.description}}</p>
+            </div>
+        </div>
+    </main>
+
+
+
+    <script>
+        const tabs = document.querySelectorAll('.tab-btn');
+        const contents = document.querySelectorAll('.tab-content');
+        const addLectureBtn = document.getElementById('addLectureBtn');
+        const addNoteBtn = document.getElementById('addNoteBtn');
+
+        function toggleAddButtons(tabId) {
+            addLectureBtn.style.display = (tabId === 'classes') ? 'inline-block' : 'none';
+            addNoteBtn.style.display = (tabId === 'handouts') ? 'inline-block' : 'none';
+        }
+
+        tabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                btn.classList.add('active');
+                const tabId = btn.getAttribute('data-tab');
+
+                contents.forEach(c => c.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
+
+                toggleAddButtons(tabId);
+            });
+        });
+
+        addLectureBtn.onclick = () => openModal('lectureModal');
+        addNoteBtn.onclick = () => openModal('noteModal');
+
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        toggleAddButtons('classes');
+    </script>
+
+    <script>
+        function openVideo(videoUrl) {
+            const video = document.createElement('video');
+            video.src = videoUrl;
+            video.controls = true;
+            video.style.width = '100%';
+            video.style.height = '100%';
+            video.autoplay = true;
+
+            // Create a temporary fullscreen container
+            const container = document.createElement('div');
+            container.style.position = 'fixed';
+            container.style.top = '0';
+            container.style.left = '0';
+            container.style.width = '100%';
+            container.style.height = '100%';
+            container.style.background = 'rgba(0, 0, 0, 0.9)';
+            container.style.display = 'flex';
+            container.style.justifyContent = 'center';
+            container.style.alignItems = 'center';
+            container.style.zIndex = '9999';
+
+            // Append video inside the container
+            container.appendChild(video);
+            document.body.appendChild(container);
+
+            // Request fullscreen
+            video.requestFullscreen();
+
+            // Close when video ends or user presses Esc
+            video.addEventListener('ended', () => {
+                document.body.removeChild(container);
+            });
+            container.addEventListener('click', () => {
+                document.body.removeChild(container);
+            });
+        }
+    </script>
+
+</body>
+
+</html>

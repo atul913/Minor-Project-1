@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | SkillForge</title>
+    <link rel="shortcut icon" href="./images/logo.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+        @import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background-image: radial-gradient(circle at 70% 0%, rgba(216, 225, 233, 0.75) 0%, rgba(215, 215, 230, 0.15) 45%, rgba(221, 221, 237, 0) 80%);
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+            align-items: center;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.2rem 3rem;
+            height: 52px;
+            width: 100%;
+        }
+
+
+        .container-login {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 40%;
+            height: 90%;
+            gap: 1.4rem;
+        }
+
+        .container-login .top {
+            font-family: 'Satoshi', sans-serif;
+            text-align: center;
+        }
+
+        .container-login .top h1 {
+            font-weight: 600;
+            color: #121418;
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .container-login .top p {
+            font-weight: 300;
+            color: #121418b4;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+
+        form {
+            width: 60%;
+            margin: 0;
+        }
+
+        .input-box {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 12px 80px 12px 18px;
+            border-radius: 28px;
+            border: 1px solid #d1d1d1;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .input-box input:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 6px rgba(124, 58, 237, 0.25);
+        }
+
+        .decor-icon {
+            position: absolute;
+            right: 46px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            pointer-events: none;
+        }
+
+        /* SVG icon styling */
+        .input-box .user-icon {
+            position: absolute;
+            right: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            color: #6b6b6bd0;
+            /* controls stroke/fill via currentColor */
+            pointer-events: none;
+            /* so icon doesn't block clicks */
+            display: block;
+            line-height: 0;
+        }
+
+        /* If you want slightly larger on small screens */
+        @media (max-width: 480px) {
+            .input-box .user-icon {
+                width: 18px;
+                height: 18px;
+                right: 12px;
+            }
+        }
+
+
+        .eye-btn {
+            position: absolute;
+            right: 6px;
+            top: 55%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #6b6b6bd0;
+            padding: 6px;
+            border-radius: 8px;
+        }
+
+
+        .submit-btn {
+            width: 100%;
+            color: whitesmoke;
+            background-color: #C1C2D6;
+            border: 1px solid #ddd;
+            padding: 12px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: 0.3s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #f6f8ff;
+            color: #505050;
+            border: 1px solid #ddd;
+        }
+
+        .separator {
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 10px;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .separator span {
+            flex: 1;
+            height: 1px;
+            background: #dadada;
+            padding: auto 5px;
+        }
+
+        .google-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 58%;
+            border-radius: 0.5rem;
+            padding: 12px 20px;
+            border: 1px solid #C1C2D6;
+            cursor: pointer;
+            background: #fff;
+            color: #333;
+            font-weight: 500;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .google-btn:hover {
+            background: #f6f8ff;
+        }
+
+        .google-btn img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .bottom {
+            display: flex;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .bottom a {
+            color: #7c3aed;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 4px;
+        }
+
+        .bottom a:hover {
+            text-decoration: underline;
+        }
+
+
+        .error {
+            width: 60%;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: #fddede;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .material-icons {
+            margin-right: 8px;
+            color: #191919;
+        }
+
+        .error p {
+            color: #191919;
+
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <header>
+            <div class="logo" title="University Management System">
+                <h2>Skill<span class="danger">F</span>orge</h2>
+            </div>
+            <div class="navbar">
+                <a href="{{url_for('dashboard') }}">
+                    <span class="material-icons-sharp">home</span>
+                    <h3>Home</h3>
+                </a>
+                <a href="{{url_for('about') }}">
+                    <span class="material-icons-sharp icon">menu_book</span>
+                    <h3>About</h3>
+                </a>
+                <a href="{{url_for('contact') }}">
+                    <span class="material-icons-sharp icon">call</span>
+                    <h3>Contact Us</h3>
+                </a>
+                <a href="{{url_for('login_page') }}">
+                    <span class="material-icons" onclick="">person_add</span>
+                    <h3>Login/Register</h3>
+                </a>
+                <a href="#" class="active">
+                    <span class="material-icons">person</span>
+                    <h3>Admin Login</h3>
+                </a>
+            </div>
+
+        </header>
+
+        <div class="container-login">
+            <div class="top">
+                <h1>Hey Admin, Welcome Back!</h1>
+                <h1>Login to your account</h1>
+                <p>It's nice to see you again</p>
+            </div>
+
+            {% if error %}
+            <div class="error">
+                <span class="material-icons">error_outline</span>
+                <p>{{ error }}</p>
+            </div>
+            {% endif %}
+
+            <!-- ✅ Login Form -->
+            <form id="loginForm" action="http://localhost:5000/login/admin" method="post">
+                <div class="input-box">
+                    <input type="text" id="username" name="username" placeholder="Your username or email" required>
+                    <svg class="user-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4 20c0-3.6 3.6-6.5 8-6.5s8 2.9 8 6.5" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+
+                <div class="input-box">
+                    <input type="password" id="password" name="password" placeholder="Your password" required>
+                    <button type="button" class="eye-btn" id="togglePassword" aria-label="Show password"
+                        aria-pressed="false">
+                        <span class="material-icons" id="eyeIcon">visibility</span>
+                    </button>
+                </div>
+
+                <input type="submit" value="Login" class="submit-btn">
+            </form>
+
+        </div>
+    </main>
+
+    <!-- ✅ JS for domain check -->
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            const emailOrUser = document.getElementById("username").value.trim();
+            const allowedDomains = ["gmail.com", "outlook.com", "acropolis.in"];
+
+            if (emailOrUser.includes("@")) {
+                const domain = emailOrUser.split("@")[1];
+                if (!allowedDomains.includes(domain.toLowerCase())) {
+                    event.preventDefault();
+                    alert("❌ Invalid email domain! Please use your college or allowed email address.");
+                }
+            }
+        });
+    </script>
+
+    <!-- ✅ JS for password toggle -->
+    <script>
+        (function () {
+            const pwd = document.getElementById('password');
+            const toggle = document.getElementById('togglePassword');
+            const eyeIcon = document.getElementById('eyeIcon');
+
+            toggle.addEventListener('click', () => {
+                const isPassword = pwd.type === 'password';
+                pwd.type = isPassword ? 'text' : 'password';
+                eyeIcon.textContent = isPassword ? 'visibility_off' : 'visibility';
+                toggle.setAttribute('aria-pressed', String(isPassword));
+                toggle.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+            });
+        })();
+    </script>
+</body>
+
+</html>

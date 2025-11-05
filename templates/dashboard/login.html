@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="shortcut icon" href="./images/logo.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://api.fontshare.com/css?f[]=Satoshi@300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        header {
+            position: relative;
+        }
+
+
+        main {
+            background-image: radial-gradient(circle at 70% 0%, rgba(216, 225, 233, 0.75) 0%, rgba(215, 215, 230, 0.15) 45%, rgba(221, 221, 237, 0) 80%);
+            display: none;
+            top: -40%;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 80vh;
+            padding: 0 1rem;
+
+        }
+
+        .container {
+            grid-row-gap: 1rem;
+            text-align: center;
+            flex-flow: column;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            height: 440px;
+            padding: 2rem;
+            display: flex;
+        }
+
+        .head {
+            margin-bottom: 0;
+            width: 80%;
+            text-align: center;
+        }
+
+        .line {
+            height: 70%;
+            width: 2px;
+            background-color: #dadad8;
+        }
+
+        .head h2 {
+            font-family: 'Satoshi', sans-serif;
+            color: #030914;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 1.3rem;
+        }
+
+        .head p {
+            font-family: Poppins, sans-serif;
+            font-size: 18px;
+            font-weight: lighter;
+            color: #030914;
+            line-height: 1.5;
+        }
+
+        .login-btn-1 {
+            width: 90px;
+            height: 45px;
+            background-color: #030914;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            border: 1px solid #dadad8;
+        }
+
+        .login-btn-1:hover {
+            background-color: white;
+            color: #030914;
+            border: 1px solid #dadad8;
+            transition: 0.4s;
+            transform: scale(1.03);
+        }
+
+        .login-btn-2 {
+            width: 90px;
+            height: 45px;
+            background-color: white;
+            color: #030914;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            border: 1px solid #dadad8;
+        }
+
+        .login-btn-2:hover {
+            background-color: #030914;
+            color: white;
+            border: 1px solid #dadad8;
+            transition: 0.4s;
+            transform: scale(1.03);
+        }
+
+        .signup-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            font-family: 'Satoshi', sans-serif;
+            font-size: 16px;
+            color: #030914;
+        }
+
+        .signup-section a {
+            text-decoration: none;
+            color: #5766ec;
+            font-weight: 600;
+        }
+
+        .signup-section a:hover {
+            color: var(--color-primary);
+            transform: color 0.3s;
+        }
+
+        .login-footer {
+            background: #030914;
+            padding: 6rem 0 20px 0;
+            text-align: center;
+            font-family: 'Satoshi', Arial, sans-serif;
+        }
+
+        .thought h5 {
+            color: whitesmoke;
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 4rem;
+        }
+
+        .footer-content h3 {
+            color: whitesmoke;
+            margin-bottom: 3rem;
+            font-size: 28px;
+            letter-spacing: 2px;
+        }
+
+        .team {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .team a div {
+            color: whitesmoke;
+            background: rgba(115, 128, 236, 0.08);
+            padding: 8px 18px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            font-size: 1rem;
+            margin: 4px 0;
+        }
+
+        .team a div:hover {
+            color: #030914;
+            border: 1px solid gray;
+            background: whitesmoke;
+            transition: color ease 0.4s, background ease 0.4s;
+        }
+
+        .bottom-line {
+            border-top: 1px solid #444;
+            margin-top: 4rem;
+            padding-top: 12px;
+            font-size: 0.95rem;
+            color: whitesmoke;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <div class="logo" title="University Management System">
+            <h2>Skill<span class="danger">F</span>orge</h2>
+        </div>
+        <div class="navbar">
+            <a href="{{url_for('dashboard') }}">
+                <span class="material-icons-sharp">home</span>
+                <h3>Home</h3>
+            </a>
+            <a href="{{url_for('about') }}">
+                <span class="material-icons-sharp icon">menu_book</span>
+                <h3>About</h3>
+            </a>
+            <a href="{{url_for('contact') }}">
+                <span class="material-icons-sharp icon">call</span>
+                <h3>Contact Us</h3>
+            </a>
+            <a href="#" class="active">
+                <span class="material-icons" onclick="">person_add</span>
+                <h3>Login/Register</h3>
+            </a>
+            <a href="{{url_for('admin_login_page') }}">
+                <span class="material-icons">person</span>
+                <h3>Admin Login</h3>
+            </a>
+        </div>
+
+
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="head">
+                <h2>For Learners</h2>
+                <p>Thousands of companies have embraced the new way to hire and upskill developers across roles and
+                    throughout their careers.</p>
+            </div>
+
+            <a href="{{url_for('learner_login') }}">
+                <div class="login-btn-1">Login</div>
+            </a>
+
+            <div class="signup-section">
+                <p>Don't have an acoount?</p>
+                <a href="{{url_for('learner_signup') }}">Sign Up</a>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="container">
+            <div class="head">
+                <h2>For Instructors</h2>
+                <p>Design engaging lessons, upload valuable resources, connect with students, inspire progress, and
+                    track
+                    growth</p>
+            </div>
+
+            <a href="{{url_for('instructor_login') }}">
+                <div class="login-btn-2">Login</div>
+            </a>
+
+            <div class="signup-section">
+                <p>Don't have an acoount?</p>
+                <a href="{{url_for('instructor_signup') }}">Sign Up</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="login-footer">
+        <div class="thought">
+            <h5>Empowering learners, inspiring growth, and shaping the future—one skill at a time.</h5>
+        </div>
+        <div class="footer-content">
+            <h3>Our Team</h3>
+            <div class="team">
+                <a href="https://www.instagram.com/azhar.khan1011/">
+                    <div>Azhar Khan</div>
+                </a>
+                <a href="aviraj.html">
+                    <div>Aviraj Singh Tomar</div>
+                </a>
+                <a href="https://www.instagram.com/bhavya__1845/">
+                    <div>Bhavya Gupta</div>
+                </a>
+                <a href="https://www.instagram.com/atul_agrawal.18/">
+                    <div>Atul Agrawal</div>
+                </a>
+            </div>
+            <div class="bottom-line">
+                &copy; Copyright 2025 | All Rights Reserved
+            </div>
+        </div>
+
+    </footer>
+
+
+</body>
+
+</html>

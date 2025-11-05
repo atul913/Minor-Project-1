@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Learners</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/manage.css') }}">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="logo" title="University Management System">
+            <h2>Skill<span class="danger" style="color:#eb6772;">F</span>orge</h2>
+        </div>
+        <div class="user-info">
+            <div class="user-details">
+                <h4>
+                    {{name}}
+                </h4>
+                <p>
+                    {{email}}
+                </p>
+            </div>
+            <a onclick="history.back()" class="back-btn">⬅ Back to Dashboard</a>
+            <a href="{{url_for('dashboard')}}" class="logout-btn" onclick="alert('You are being logged out!')">
+                <span class="material-icons-sharp"
+                    style="vertical-align: middle; font-size: 18px; color:white;">logout</span> Logout
+            </a>
+        </div>
+    </header>
+    <h1>Manage Instructors</h1>
+    <div class="card">
+        <form action="" method="POST">
+            <div class="input-box">
+                <input type="text" id="rno" name="enrollment" class="t1" placeholder="Enter Enrollment Number"
+                    required />
+
+                <button type="button" class="search-btn" id="togglePassword" aria-label="Show password"
+                    aria-pressed="false">
+                    <span class="material-icons-sharp success-icon">search</span>
+                </button>
+
+
+            </div>
+        </form>
+    </div>
+
+
+    <div class="data-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>S. No.</th>
+                    <th>Instructor Name</th>
+                    <th>Email</th>n
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for instructor in data %}
+                <tr id="row-{{ instructor.id }}">
+                    <td>{{ loop.index}}</td>
+                    <td>{{ instructor.username }}</td>
+                    <td>{{ instructor.email }}</td>
+                    <td class="actions">
+                        <a onclick="" class="btn edit-btn">Edit</a>
+                        <a href="/admin/instructor/delete/{{ instructor.id }}" class="btn delete-btn"
+                            onclick="return confirm('Delete this instructor?')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+</body>
+
+</html>

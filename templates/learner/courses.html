@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            transition: filter 0.3s;
+            align-content: center;
+        }
+
+        main {
+            background-image: radial-gradient(circle at 75% 0, #d8e1e9bf, #a9a7ff00 45%);
+            min-height: 90vh;
+            padding: 4rem;
+            padding-top: 6rem;
+            transition: filter 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main h2 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin: 2.2rem 0;
+            color: var(--color-dark);
+        }
+
+        /* The modal background */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            /* On top of everything */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Modal content box */
+        .modal-content {
+            padding: 20px;
+            border-radius: 8px;
+            width: 700px;
+            position: relative;
+            /* fixed to viewport */
+            top: 50%;
+            /* vertical center */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* horizontal center */
+            /* center perfectly */
+            /* ensure it stays above blurred background */
+            z-index: 1001;
+        }
+
+        /* Close button */
+
+        form {
+            background: var(--color-white);
+            border-radius: var(--card-border-radius);
+            padding: 2rem 2.5rem;
+            box-shadow: var(--box-shadow);
+            width: 700px;
+            height: auto;
+            margin: 0rem auto 3rem auto;
+        }
+
+        fieldset {
+            border: 1px solid var(--color-light);
+            border-radius: var(--border-radius-1);
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.8rem;
+        }
+
+        legend {
+            font-weight: 600;
+            color: var(--color-primary);
+            padding: 0 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        /* Professional Material-style Input Fields */
+        input[type="text"],
+        input[type="date"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #BDBDBD;
+            border-radius: 6px;
+            background: #fafafa;
+            font-size: 1.05rem;
+            color: #333;
+            box-sizing: border-box;
+            transition: border 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+            outline: none;
+            margin-top: 7px;
+            margin-bottom: 18px;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        textarea:focus {
+            border-color: #fff;
+            box-shadow: 0 2px 8px rgba(56, 159, 122, 0.09);
+            background: #fff;
+        }
+
+        label {
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 2px;
+            letter-spacing: 0.01em;
+        }
+
+
+        button[type="submit"] {
+            background: var(--color-primary);
+            color: white;
+            padding: 0.75rem 2.2rem;
+            border: none;
+            border-radius: var(--border-radius-2);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s ease;
+            margin-top: 1.3rem;
+            display: block;
+            width: 100%;
+            max-width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        button[type="submit"]:hover {
+            background: var(--color-success);
+        }
+
+        /* Add Course Button */
+        .add-btn {
+            background: var(--color-primary);
+            color: white;
+            padding: 10px 16px;
+            margin: 2rem 0;
+            border-radius: 50px;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.15s;
+            width: fit-content;
+        }
+
+        .add-btn:hover {
+            background-color: var(--color-success);
+            transform: translateY(-2px);
+        }
+
+
+
+        .more-btn {
+            position: relative;
+            cursor: pointer;
+            display: inline-flex;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            justify-content: center;
+            align-items: center;
+            margin: 0px 0px auto auto;
+        }
+
+
+        .popup-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background: white;
+            border-radius: 6px;
+            padding: 10px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+        }
+
+
+
+        .more-btn:hover {
+            background-color: #dfdfdf67;
+        }
+
+        .popup-menu a {
+            background: none;
+            width: 100%;
+            padding: 8px 20px;
+            color: #333;
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+        }
+
+        .popup-menu a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .courses-container {
+            width: 100%;
+            height: auto;
+            overflow-y: auto;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            scrollbar-width: thin;
+            scrollbar-color: #888 #f1f1f1;
+        }
+
+
+        .course-card {
+            background: white;
+            width: 47%;
+            border: 1px solid #b2c6de;
+            border-radius: 5px;
+            margin: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .course-header {
+            display: flex;
+            padding: 20px 20px 0 20px;
+            height: 72px;
+        }
+
+        .course-icon {
+            background: #e8f1ffc6;
+            padding: 16px;
+            margin-right: 10px;
+            border-radius: 10px;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+        }
+
+        .course-icon i {
+            color: rgb(73, 162, 255);
+
+        }
+
+        .course-tag {
+            background: #e7f3ff;
+            color: #0070f4;
+            font-size: 10px;
+            margin-top: 6px;
+            padding: 4px 8px;
+            border-radius: 5px;
+        }
+
+        .course-title {
+            font-size: 18px;
+            margin-top: 5px;
+            color: #333;
+            font-weight: 600;
+        }
+
+
+        .course-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            border-top: 1px solid #b2c6de;
+            background-color: #F2FBFF8C;
+            padding: 10px 20px 10px 20px;
+        }
+
+        .batch-code {
+            font-size: 14px;
+            color: #444;
+        }
+
+        .open-btn {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .open-btn:hover {
+            background-color: #003f84;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #777;
+            margin-top: 2rem;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+        <div class="logo" title="University Management System">
+            <h2>Skill<span class="danger">F</span>orge</h2>
+        </div>
+        <div class="navbar">
+            <a href="{{url_for('learner_dashboard')}}">
+                <span class="material-icons-sharp">home</span>
+                <h3>Home</h3>
+            </a>
+            <a href="#" class="active">
+                <span class="material-icons-sharp">menu_book</span>
+                <h3>Courses</h3>
+            </a>
+            <a href="{{url_for('study')}}">
+                <span class="material-icons-sharp">book</span>
+                <h3>Study</h3>
+            </a>
+            <a href="{{url_for('learner_password')}}">
+                <span class="material-icons-sharp">password</span>
+                <h3>Change Password</h3>
+            </a>
+            <a href="{{url_for('dashboard')}}" onclick="alert('You have been logged out!')">
+                <span class="material-icons-sharp">logout</span>
+                <h3>Logout</h3>
+            </a>
+        </div>
+    </header>
+
+    <main id="pageContent">
+        <h2>Available Courses</h2>
+
+        {% if courses %}
+        <div class="courses-container">
+            {% for course in courses %}
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-icon">
+                        <i class="fa-regular fa-folder-closed"></i>
+                    </div>
+                    <div>
+                        <span class="course-tag">SKILL FORGE</span>
+                        <h3 class="course-title">{{ course.course_name }}</h3>
+                    </div>
+
+                </div>
+
+                <div class="course-footer">
+                    <span class="batch-code"><strong>Created By: </strong>{{course.creator}} </span>
+                    <span class="batch-code"><strong> Rating : </strong>{{course.rating}}</span>
+                    <a href="{{url_for('enroll', data_course = course.id)}}">
+                        <button class="open-btn">Enroll</button>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty-message">No courses available yet.</p>
+        {% endif %}
+
+    </main>
+
+
+
+    <script>
+        const modal = document.getElementById("myModal");
+        const btn = document.getElementById("openModalBtn");
+        const span = document.getElementsByClassName("close")[0];
+        const pageContent = document.getElementById("pageContent");
+
+        btn.onclick = function () {
+            modal.style.display = "block";
+            pageContent.style.filter = "blur(5px)";
+        }
+
+        span.onclick = function () {
+            modal.style.display = "none";
+            pageContent.style.filter = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                pageContent.style.filter = "none";
+            }
+        }
+    </script>
+
+</body>
+
+</html>
