@@ -35,7 +35,7 @@ A full-stack web application built to help students learn courses, track progres
 | Login & Signup | ![](static/images/auth.png) |
 | Study  | ![](static/images/course-details.png) |
 | Course view | ![](static/images/player.png) |
-| Create Course | ![](static/images/create-course.png) |
+| Create Course | ![](static/images/courses.png) |
 | Ratings & Reviews | ![](static/images/ratings.png) |
 
 ---
