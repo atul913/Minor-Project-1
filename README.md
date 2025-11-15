@@ -31,15 +31,12 @@ A full-stack web application built to help students learn courses, track progres
 
 | Page | Screenshot |
 |------|------------|
-| Home / Landing Page | ![](images/home.png) |
-| Login & Signup | ![](images/auth.png) |
-| Browse Courses | ![](images/courses.png) |
-| Study  | ![](images/course-details.png) |
-| Course view | ![](images/player.png) |
-| Create Course | ![](images/create-course.png) |
-| Ratings & Reviews | ![](images/ratings.png) |
-
-> Add your actual images inside **/images** folder.
+| Home / Landing Page | ![](static/images/home.png) |
+| Login & Signup | ![](static/images/auth.png) |
+| Study  | ![](static/images/course-details.png) |
+| Course view | ![](static/images/player.png) |
+| Create Course | ![](static/images/create-course.png) |
+| Ratings & Reviews | ![](static/images/ratings.png) |
 
 ---
 
