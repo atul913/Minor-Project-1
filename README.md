@@ -4,42 +4,6 @@ A full-stack web application built to help students learn courses, track progres
 
 ---
 
-## ✅ Features
-
-### 👨‍🎓 Learner
-- Browse available courses
-- Enroll into courses
-- Access study material and lectures
-- Attempt quizzes and give feedback
-- View certificates and learning progress
-
-### 👨‍🏫 Instructor
-- Create and manage courses
-- Upload materials, lectures, and quizzes
-- Track student enrollment and progress
-- Receive feedback on their courses
-
-### 👩‍💼 Admin
-- Manage learners, instructors, and courses
-- Approve or remove users/courses
-- Monitor entire platform activity
-- Provide system support
-
----
-
-## 📸 Preview Screens
-
-| Page | Screenshot |
-|------|------------|
-| Home / Landing Page | ![](static/images/home.png) |
-| Login & Signup | ![](static/images/auth.png) |
-| Study  | ![](static/images/course-details.png) |
-| Course view | ![](static/images/player.png) |
-| Create Course | ![](static/images/courses.png) |
-| Ratings & Reviews | ![](static/images/ratings.png) |
-
----
-
 ## 🚀 Features
 
 ### 👩‍🎓 Learner Features
@@ -61,6 +25,19 @@ A full-stack web application built to help students learn courses, track progres
 - Approve or block courses  
 - Handle reports  
 - System-level analytics  
+
+---
+
+## 📸 Preview Screens
+
+| Page | Screenshot |
+|------|------------|
+| Home / Landing Page | ![](static/images/home.png) |
+| Login & Signup | ![](static/images/auth.png) |
+| Study  | ![](static/images/course-details.png) |
+| Course view | ![](static/images/player.png) |
+| Create Course | ![](static/images/courses.png) |
+| Ratings & Reviews | ![](static/images/ratings.png) |
 
 ---
 
